@@ -1,40 +1,22 @@
+import { Catagory } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 
-type MenuType = {
-  title: string;
-  desc: string;
-  color: string;
-  image: string;
+const getData = async () => {
+  const data = await fetch("http://localhost:3000/api/catagory");
+  if (!data.ok) {
+    return;
+  }
+  return data.json();
 };
 
-const MenuItem: MenuType[] = [
-  {
-    title: "pasta",
-    desc: "A classic Italian dish made from durum wheat, served with a variety of delicious sauces like Alfredo, Marinara, or Pesto.",
-    color: "green",
-    image: "/pastaMenu.png",
-  },
-  {
-    title: "burger",
-    desc: "A mouthwatering sandwich consisting of a juicy patty, fresh veggies, and flavorful sauces, all stacked inside a soft bun.",
-    color: "white",
-    image: "/burgerMenu.png",
-  },
-  {
-    title: "pizza",
-    desc: "An oven-baked, cheesy delight topped with a variety of ingredients like vegetables, meats, and herbs on a crispy crust.",
-    color: "red",
-    image: "/pizzaMenu.png",
-  },
-];
-
-const Menu = () => {
+const Menu = async () => {
+  const MenuItem: Catagory[] = await getData();
   return (
     <div className="w-full md:h-[calc(100vh-224px)] flex-col flex justify-center items-center py-12 md:flex-row">
       {MenuItem.map((item, index) => (
         <Link
-          href={`/menu/${item.title}`}
+          href={`/menu/${item.slug}`}
           key={index}
           style={{
             backgroundColor: item.color,

@@ -1,14 +1,22 @@
 import ProductCard from "@/components/ProductCard";
-import { Products } from "@/data";
+import { Products } from "@prisma/client";
+
+const getData = async (cat: string) => {
+  const data = await fetch(`http://localhost:3000/api/product?cat=${cat}`);
+  if (!data.ok) {
+    throw new Error("went wrong");
+  }
+  return data.json();
+};
 
 async function CatagoryPage({
   params,
 }: {
-  params: Promise<{ catagory: String }>;
+  params: Promise<{ catagory: string }>;
 }) {
   const pathname = await params;
   console.log(pathname);
-  const items = Products.filter((item) => item.catagory === pathname.catagory);
+  const items: Products[] = await getData(pathname.catagory);
   return (
     <div>
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
