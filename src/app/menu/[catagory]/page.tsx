@@ -2,7 +2,7 @@ import ProductCard from "@/components/ProductCard";
 import { Products } from "@prisma/client";
 
 const getData = async (cat: string) => {
-  const data = await fetch(`http://localhost:3000/api/product?cat=${cat}`);
+  const data = await fetch(`/api/product?cat=${cat}`);
   if (!data.ok) {
     throw new Error("went wrong");
   }

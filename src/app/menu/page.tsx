@@ -1,10 +1,9 @@
-import { projectUrl } from "@/data";
 import { Catagory } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 
 const getData = async () => {
-  const data = await fetch(`${projectUrl}/api/catagory`);
+  const data = await fetch(`/api/catagory`);
   if (!data.ok) {
     return;
   }

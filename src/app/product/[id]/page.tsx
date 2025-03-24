@@ -5,7 +5,7 @@ import { Product } from "@/type";
 import Image from "next/image";
 
 const getProduct = async (id: string) => {
-  const res = await fetch(`${projectUrl}/product/${id}`);
+  const res = await fetch(`/api/product/${id}`);
 
   if (!res.ok) {
     throw new Error("Product response was not ok");
