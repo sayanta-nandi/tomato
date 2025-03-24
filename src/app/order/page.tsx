@@ -14,7 +14,7 @@ const OrderPage = () => {
   const { status, data: session } = useSession();
   const { isPending, error, data } = useQuery({
     queryKey: ["order"],
-    queryFn: () => fetch(`/api/order`).then((res) => res.json()),
+    queryFn: () => fetch(`${projectUrl}/api/order`).then((res) => res.json()),
   });
 
   const queryClient = useQueryClient();
@@ -22,7 +22,7 @@ const OrderPage = () => {
   const mutation = useMutation({
     mutationFn: ({ status, id }: { status: string; id: string }) => {
       console.log(status);
-      return fetch(`/api/order/${id}`, {
+      return fetch(`${projectUrl}/api/order/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

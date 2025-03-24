@@ -1,8 +1,9 @@
 import ProductCard from "@/components/ProductCard";
+import { projectUrl } from "@/data";
 import { Products } from "@prisma/client";
 
 const getData = async (cat: string) => {
-  const data = await fetch(`/api/product?cat=${cat}`);
+  const data = await fetch(`${projectUrl}/api/product?cat=${cat}`);
   if (!data.ok) {
     throw new Error("went wrong");
   }
