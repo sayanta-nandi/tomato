@@ -1,2 +1,2 @@
 export const projectUrl =
-  "https://tomato-mu83ijwip-sayanta-nandis-projects.vercel.app";
+  "https://tomato-git-main-sayanta-nandis-projects.vercel.app/";
