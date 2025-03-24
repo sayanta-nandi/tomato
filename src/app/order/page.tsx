@@ -2,6 +2,7 @@
 
 import Loading from "@/components/Loading";
 import NotFoundPage from "@/components/NotFoundPage";
+import { projectUrl } from "@/data";
 import { Order } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit2 } from "lucide-react";
@@ -13,8 +14,7 @@ const OrderPage = () => {
   const { status, data: session } = useSession();
   const { isPending, error, data } = useQuery({
     queryKey: ["order"],
-    queryFn: () =>
-      fetch("http://localhost:3000/api/order").then((res) => res.json()),
+    queryFn: () => fetch(`${projectUrl}/api/order`).then((res) => res.json()),
   });
 
   const queryClient = useQueryClient();
@@ -22,7 +22,7 @@ const OrderPage = () => {
   const mutation = useMutation({
     mutationFn: ({ status, id }: { status: string; id: string }) => {
       console.log(status);
-      return fetch(`http://localhost:3000/api/order/${id}`, {
+      return fetch(`${projectUrl}/api/order/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

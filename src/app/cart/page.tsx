@@ -5,33 +5,6 @@ import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-// const cartProd = [
-// {
-//   id: 1,
-//   title: "Classic Margherita Pizza",
-//   price: 45,
-//   quantity: 2,
-//   option: "small",
-//   image: "/pizza.png",
-// },
-// {
-//   id: 2,
-//   title: "Spicy Chicken Burger",
-//   price: 39,
-//   quantity: 1,
-//   option: "large",
-//   image: "/burger.png",
-// },
-// {
-//   id: 3,
-//   title: "Veggie Delight Sandwich",
-//   price: 20,
-//   quantity: 2,
-//   option: "meduim",
-//   image: "/sandwitch.png",
-// },
-// ];
-
 const CartPage = () => {
   const { products, totalPrice, totalQuantity, removeFromCart } = useStore();
   return (

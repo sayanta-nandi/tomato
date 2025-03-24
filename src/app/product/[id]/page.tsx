@@ -1,10 +1,11 @@
 import DeleteButton from "@/components/DeleteButton";
 import Price from "@/components/Price";
+import { projectUrl } from "@/data";
 import { Product } from "@/type";
 import Image from "next/image";
 
 const getProduct = async (id: string) => {
-  const res = await fetch(`http://localhost:3000/api/product/${id}`);
+  const res = await fetch(`${projectUrl}/product/${id}`);
 
   if (!res.ok) {
     throw new Error("Product response was not ok");

@@ -1,8 +1,9 @@
+import { projectUrl } from "@/data";
 import ProductCard from "./ProductCard";
 import { Products } from "@prisma/client";
 
 const getData = async () => {
-  const data = await fetch("http://localhost:3000/api/product");
+  const data = await fetch(`${projectUrl}/api/product`);
   if (!data.ok) {
     throw new Error("went wrong");
   }

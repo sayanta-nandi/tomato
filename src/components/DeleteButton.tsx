@@ -1,5 +1,6 @@
 "use client";
 
+import { projectUrl } from "@/data";
 import { Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -11,7 +12,7 @@ const DeleteButton = ({ id }: { id: string }) => {
   if (status === "loading") return "loading...";
   if (status === "unauthenticated" || !data?.user.isAdmin) return;
   const deleteProduct = async (id: string) => {
-    const res = await fetch(`http://localhost:3000/api/product/${id}`, {
+    const res = await fetch(`${projectUrl}/api/product/${id}`, {
       method: "DELETE",
     });
     if (res.ok) {
