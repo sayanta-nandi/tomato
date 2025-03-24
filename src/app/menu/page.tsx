@@ -12,6 +12,8 @@ const getData = async () => {
 };
 
 const Menu = async () => {
+  if (!projectUrl) return null;
+
   const MenuItem: Catagory[] = await getData();
   return (
     <div className="w-full md:h-[calc(100vh-224px)] flex-col flex justify-center items-center py-12 md:flex-row">

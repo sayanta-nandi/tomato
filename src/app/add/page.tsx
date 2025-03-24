@@ -1,6 +1,7 @@
 "use client";
 
 import Loading from "@/components/Loading";
+import { projectUrl } from "@/data";
 import { X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -28,6 +29,8 @@ type Product = {
 };
 
 const AddPage = () => {
+  if (!projectUrl) return null;
+
   const [item, setItem] = useState<Item>({
     title: "",
     desc: "",

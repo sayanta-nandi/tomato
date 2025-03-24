@@ -15,6 +15,8 @@ const getProduct = async (id: string) => {
 };
 
 const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+  if (!projectUrl) return null;
+
   const { id } = await params;
   const product: Product = await getProduct(id);
   console.log(product);

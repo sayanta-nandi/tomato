@@ -15,6 +15,8 @@ async function CatagoryPage({
 }: {
   params: Promise<{ catagory: string }>;
 }) {
+  if (!projectUrl) return null;
+
   const pathname = await params;
   console.log(pathname);
   const items: Products[] = await getData(pathname.catagory);

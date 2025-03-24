@@ -11,6 +11,8 @@ import { FormEvent } from "react";
 import { toast } from "react-toastify";
 
 const OrderPage = () => {
+  if (!projectUrl) return null;
+
   const { status, data: session } = useSession();
   const { isPending, error, data } = useQuery({
     queryKey: ["order"],
