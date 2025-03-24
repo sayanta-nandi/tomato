@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Akaya_Kanadaka } from "@next/font/google";
+import { Akaya_Kanadaka } from "next/font/google";
 import Notification from "@/components/Notification";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
