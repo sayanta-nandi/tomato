@@ -1,20 +1,30 @@
 "use client";
 
+import { useStore } from "@/cart";
+import { Product } from "@/type";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-type PriceProps = {
-  price: number;
-  id: number;
-  options?: { title: string; price: number }[];
-};
-
-const Price = ({ price, options, id }: PriceProps) => {
+const Price = ({ product }: { product: Product }) => {
+  const { price, options } = product;
+  const { addToCart } = useStore();
   const [count, setCount] = useState(1);
   const [selectedoption, setSelectedOption] = useState<{
     title: string;
     price: number;
   }>();
   const [newPrice, setNewPrice] = useState(price);
+  const handleCart = (product: Product) => {
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: newPrice,
+      image: product.image,
+      option: selectedoption?.title || "",
+      quantity: count,
+    });
+    toast.success("Added to Cart");
+  };
   useEffect(() => {
     if (options) {
       setSelectedOption(options[0]);
@@ -29,7 +39,7 @@ const Price = ({ price, options, id }: PriceProps) => {
   }, [selectedoption, count]);
   return (
     <div className="flex flex-col gap-6">
-      <p className="text-2xl">${newPrice.toFixed(2)}</p>
+      <p className="text-2xl">${newPrice}</p>
       <div className="flex text-lg border-orange-500 border w-fit">
         {options?.map((option) => (
           <button
@@ -63,7 +73,10 @@ const Price = ({ price, options, id }: PriceProps) => {
         <button className="bg-orange-500 px-6 py-2 text-xl text-white rounded-2xl hover:cursor-pointer">
           Order
         </button>
-        <button className="bg-orange-500 px-6 py-2 text-xl text-white rounded-2xl hover:cursor-pointer">
+        <button
+          onClick={() => handleCart(product)}
+          className="bg-orange-500 px-6 py-2 text-xl text-white rounded-2xl hover:cursor-pointer"
+        >
           Add to Cart
         </button>
       </div>

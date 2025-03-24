@@ -1,4 +1,52 @@
+"use client";
+
+import Loading from "@/components/Loading";
+import NotFoundPage from "@/components/NotFoundPage";
+import { Order } from "@prisma/client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Edit2 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { FormEvent } from "react";
+import { toast } from "react-toastify";
+
 const OrderPage = () => {
+  const { status, data: session } = useSession();
+  const { isPending, error, data } = useQuery({
+    queryKey: ["order"],
+    queryFn: () =>
+      fetch("http://localhost:3000/api/order").then((res) => res.json()),
+  });
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: ({ status, id }: { status: string; id: string }) => {
+      console.log(status);
+      return fetch(`http://localhost:3000/api/order/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status }),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["order"] });
+      toast.success("order status updated");
+    },
+  });
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>, id: string) => {
+    e.preventDefault();
+    const input = e.currentTarget[0] as HTMLInputElement;
+    const status = input.value as string;
+    mutation.mutate({ status, id });
+  };
+
+  if (isPending || status === "loading") return <Loading />;
+
+  if (error || status === "unauthenticated")
+    return <NotFoundPage massage="You are not authenticated" />;
   return (
     <div className="min-h-[calc(100vh-320px)] sm:min-h-[calc(100vh-256px)] md:min-h-[calc(100vh-224px)] w-full p-4 md:px-10 lg:px-20">
       <table className="w-full border-separate border-spacing-3">
@@ -12,69 +60,51 @@ const OrderPage = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-red-100">
-            <td className="hidden md:block py-4 px-1">215616</td>
-            <td className="py-4 px-1">12/05/2025</td>
-            <td className="py-4 px-1">$51</td>
-            <td className="hidden md:block py-4 px-1">Pizza(2), Burger(2)</td>
-            <td className="py-4 px-1">Arrive at 3:00pm, Today</td>
-          </tr>
-          <tr className="odd:bg-gray-100">
-            <td className="hidden md:block py-4 px-1">215616</td>
-            <td className="py-4 px-1">12/05/2025</td>
-            <td className="py-4 px-1">$51</td>
-            <td className="hidden md:block py-4 px-1">Pizza(2), Burger(2)</td>
-            <td className="py-4 px-1">Arrived</td>
-          </tr>
-          <tr className="odd:bg-gray-100">
-            <td className="hidden md:block py-4 px-1">215616</td>
-            <td className="py-4 px-1">12/05/2025</td>
-            <td className="py-4 px-1">$51</td>
-            <td className="hidden md:block py-4 px-1">Pizza(2), Burger(2)</td>
-            <td className="py-4 px-1">Arrived</td>
-          </tr>
-          <tr className="odd:bg-gray-100">
-            <td className="hidden md:block py-4 px-1">215616</td>
-            <td className="py-4 px-1">12/05/2025</td>
-            <td className="py-4 px-1">$51</td>
-            <td className="hidden md:block py-4 px-1">Pizza(2), Burger(2)</td>
-            <td className="py-4 px-1">Arrived</td>
-          </tr>
-          <tr className="odd:bg-gray-100">
-            <td className="hidden md:block py-4 px-1">215616</td>
-            <td className="py-4 px-1">12/05/2025</td>
-            <td className="py-4 px-1">$51</td>
-            <td className="hidden md:block py-4 px-1">Pizza(2), Burger(2)</td>
-            <td className="py-4 px-1">Arrived</td>
-          </tr>
-          <tr className="odd:bg-gray-100">
-            <td className="hidden md:block py-4 px-1">215616</td>
-            <td className="py-4 px-1">12/05/2025</td>
-            <td className="py-4 px-1">$51</td>
-            <td className="hidden md:block py-4 px-1">Pizza(2), Burger(2)</td>
-            <td className="py-4 px-1">Arrived</td>
-          </tr>
-          <tr className="odd:bg-gray-100">
-            <td className="hidden md:block py-4 px-1">215616</td>
-            <td className="py-4 px-1">12/05/2025</td>
-            <td className="py-4 px-1">$51</td>
-            <td className="hidden md:block py-4 px-1">Pizza(2), Burger(2)</td>
-            <td className="py-4 px-1">Arrived</td>
-          </tr>
-          <tr className="odd:bg-gray-100">
-            <td className="hidden md:block py-4 px-1">215616</td>
-            <td className="py-4 px-1">12/05/2025</td>
-            <td className="py-4 px-1">$51</td>
-            <td className="hidden md:block py-4 px-1">Pizza(2), Burger(2)</td>
-            <td className="py-4 px-1">Arrived</td>
-          </tr>
-          <tr className="odd:bg-gray-100">
-            <td className="hidden md:block py-4 px-1">215616</td>
-            <td className="py-4 px-1">12/05/2025</td>
-            <td className="py-4 px-1">$51</td>
-            <td className="hidden md:block py-4 px-1">Pizza(2), Burger(2)</td>
-            <td className="py-4 px-1">Arrived</td>
-          </tr>
+          {data.map((order: Order) => {
+            const createdAtDate = new Date(order.createdAt);
+            const formatted = createdAtDate.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+            return (
+              <tr
+                key={order.id}
+                className={`${
+                  order.status === "delivered" ? "bg-green-200" : "bg-red-100"
+                }`}
+              >
+                <td className="hidden md:block py-4 px-1">{order.id}</td>
+                <td className="py-4 px-1">{formatted}</td>
+                <td className="py-4 px-1">${Number(order.price)}</td>
+                <td className="hidden md:block py-4 px-1">
+                  {order.products.map((prod, index) => (
+                    <div key={index} className="flex">
+                      {String(prod?.toString)},
+                    </div>
+                  ))}
+                </td>
+                <td className="py-4 px-1">
+                  {session?.user.isAdmin ? (
+                    <form
+                      className="w-full flex items-center justify-center gap-4"
+                      onSubmit={(e) => handleSubmit(e, order.id)}
+                    >
+                      <input className="p-2" placeholder={order.status} />
+                      <button
+                        type="submit"
+                        className="size-10 hover:cursor-pointer text-white bg-red-400 rounded-full p-2 flex items-center justify-center"
+                      >
+                        <Edit2 />
+                      </button>
+                    </form>
+                  ) : (
+                    <>{order.status}</>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

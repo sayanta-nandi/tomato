@@ -1,26 +1,19 @@
 "use client";
 
-import { MenuIcon, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-
-const navItems = [
-  { name: "Home", path: "" },
-  { name: "Menu", path: "menu" },
-  { name: "Special Offers", path: "offer" },
-  { name: "Track Orders", path: "order" },
-  { name: "Cart", path: "cart" },
-  { name: "Login/Signup", path: "login" },
-];
+import { usePathname, useRouter } from "next/navigation";
+import Navbar2 from "./Navbar2";
+import { useSession, signOut } from "next-auth/react";
+import { useStore } from "@/cart";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { totalQuantity } = useStore();
   const pathname = usePathname();
   console.log(pathname);
   const path = pathname.split("/")[1];
   console.log(path);
+  const { status, data } = useSession();
   return (
     <div className="p-2 w-full h-24 flex items-center justify-between bg-transparent">
       <Link href="/" className="flex relative h-full w-36">
@@ -57,56 +50,56 @@ const Navbar = () => {
             path === "cart" && "bg-orange-500 text-white transiton-all"
           }`}
         >
-          Cart
+          Cart({totalQuantity})
         </Link>
-        <Link
-          href="/order"
-          className={`rounded-xl px-4 h-8 flex items-center justify-center ${
-            path === "order" && "bg-orange-500 text-white transiton-all"
-          }`}
-        >
-          Track Orders
-        </Link>
-        <Link
-          href="/login"
-          className="relative bg-[#03081F] flex gap-1 items-center rounded-3xl px-4 py-2 text-white "
-        >
-          <div className="relative size-8">
-            <Image src="/user.png" alt="" fill />
-          </div>
-          LogIn/SignUp
-        </Link>
-      </div>
-      <div
-        className="md:hidden hover:cursor-pointer"
-        onClick={() => setIsOpen(true)}
-      >
-        <MenuIcon />
-      </div>
-      <div
-        className={`${
-          isOpen ? "flex" : "hidden"
-        } fixed left-0 top-0 z-50 h-screen w-screen bg-slate-900/60 flex-col items-center justify-center text-xl text-white gap-2 animate-fade-down animate-once animate-ease-in`}
-      >
-        {navItems.map((item) => (
+        {status === "authenticated" ? (
+          <>
+            <Link
+              href="/order"
+              className={`rounded-xl px-4 h-8 flex items-center justify-center ${
+                path === "order" && "bg-orange-500 text-white transiton-all"
+              }`}
+            >
+              Track Orders
+            </Link>
+            {data.user.isAdmin && (
+              <Link
+                href="/add"
+                className={`rounded-xl px-4 h-8 flex items-center justify-center ${
+                  path === "add" && "bg-orange-500 text-white transiton-all"
+                }`}
+              >
+                Add Products
+              </Link>
+            )}
+            <button
+              onClick={() => {
+                signOut({ redirectTo: "/" });
+              }}
+              className="hover:cursor-pointer rounded-xl px-4 h-8 flex items-center justify-center bg-red-500 text-white"
+            >
+              Logout
+            </button>
+            <div className="relative bg-[#03081F] flex gap-1 items-center rounded-3xl px-4 py-2 text-white ">
+              <div className="relative size-8 rounded-full overflow-hidden">
+                <Image src={data.user.image || "/user.png"} alt="" fill />
+              </div>
+              {data.user.name}
+            </div>
+          </>
+        ) : (
           <Link
-            href={`/${item.path}`}
-            key={item.path}
-            className={`block py-2 px-4 rounded-3xl ${
-              path === item.path && "bg-orange-500"
-            }`}
-            onClick={() => setIsOpen(false)}
+            href="/login"
+            className="relative bg-[#03081F] flex gap-1 items-center rounded-3xl px-4 py-2 text-white "
           >
-            {item.name}
+            <div className="relative size-8">
+              <Image src="/user.png" alt="" fill />
+            </div>
+            LogIn/SignUp
           </Link>
-        ))}
-        <div
-          className="absolute top-2 right-6 hover:cursor-pointer"
-          onClick={() => setIsOpen(false)}
-        >
-          <X />
-        </div>
+        )}
       </div>
+      <Navbar2 path={path} status={status === "authenticated"} />
     </div>
   );
 };

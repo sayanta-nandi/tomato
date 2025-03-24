@@ -1,12 +1,13 @@
 import { Products } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import DeleteButton from "./DeleteButton";
 
 const ProductCard = ({ prod }: { prod: Products }) => {
   return (
-    <div className="min-w-[50vw] md:min-w-[33vw] lg:min-w-[25vw] xl:min-w-[20vw] hover:bg-amber-50">
+    <div className="min-w-[70vw] md:min-w-0 md:w-[50vw] lg:w-[33vw] xl:w-[25vw] hover:bg-amber-50">
       {/* Image con */}
-      <div className="w-full aspect-square relative hover:scale-110 transition-all overflow-hidden">
+      <div className="w-full h-auto aspect-square relative hover:scale-110 transition-all overflow-hidden">
         <Image src={prod.image} alt="" fill className="overflow-hidden" />
       </div>
       {/* text con */}

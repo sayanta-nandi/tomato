@@ -1,38 +1,64 @@
-"use client";
-
-import { motion } from "framer-motion";
+import { MenuIcon, X } from "lucide-react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 const navItems = [
-  { name: "Home", path: "/" },
-  { name: "Categories", path: "/categories" },
-  { name: "Menu", path: "/menu" },
+  { name: "Home", path: "", authenticated: "none" },
+  { name: "Menu", path: "menu", authenticated: "none" },
+  { name: "Special Offers", path: "offer", authenticated: "none" },
+  { name: "Track Orders", path: "order", authenticated: "user" },
+  { name: "Cart", path: "cart", authenticated: "none" },
+  { name: "Login/Signup", path: "login", authenticated: "noUser" },
 ];
 
-export default function Navbar2() {
-  const pathname = usePathname();
+const Navbar2 = ({ path, status }: { path: string; status: boolean }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="w-full p-4 flex justify-center">
-      <ul className="flex space-x-6 relative">
+    <>
+      <div
+        className="md:hidden hover:cursor-pointer"
+        onClick={() => setIsOpen(true)}
+      >
+        <MenuIcon />
+      </div>
+      <div
+        className={`${
+          isOpen ? "flex" : "hidden"
+        } fixed left-0 top-0 z-50 h-screen w-screen bg-slate-900/60 flex-col items-center justify-center text-xl text-white gap-2 animate-fade-down animate-once animate-ease-in`}
+      >
         {navItems.map((item) => (
-          <li key={item.path} className="relative">
-            <Link href={item.path} className="relative px-4 py-2 text-white">
-              {item.name}
-              {pathname === item.path && (
-                <motion.div
-                  layoutId="activeIndicator"
-                  className="absolute inset-0 bg-blue-500 rounded-lg -z-10"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-              )}
-            </Link>
-          </li>
+          <Link
+            href={`/${item.path}`}
+            key={item.path}
+            className={`block py-2 px-4 rounded-3xl ${
+              status
+                ? item.authenticated === "noUser" && "hidden"
+                : item.authenticated === "user" && "hidden"
+            } ${path === item.path && "bg-orange-500"}`}
+            onClick={() => setIsOpen(false)}
+          >
+            {item.name}
+          </Link>
         ))}
-      </ul>
-    </nav>
+
+        <button
+          onClick={() => signOut()}
+          className={`block py-2 px-4 hover:cursor-pointer rounded-3xl ${
+            !status && "hidden"
+          }`}
+        >
+          LogOut
+        </button>
+        <div
+          className="absolute top-2 right-6 hover:cursor-pointer"
+          onClick={() => setIsOpen(false)}
+        >
+          <X />
+        </div>
+      </div>
+    </>
   );
-}
+};
+export default Navbar2;

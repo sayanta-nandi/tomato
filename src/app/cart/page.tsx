@@ -1,40 +1,44 @@
-import { CrossIcon, X } from "lucide-react";
+"use client";
+
+import { useStore } from "@/cart";
+import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const cartProd = [
-  {
-    id: 1,
-    title: "Classic Margherita Pizza",
-    price: 45,
-    quantity: 2,
-    option: "small",
-    image: "/pizza.png",
-  },
-  {
-    id: 2,
-    title: "Spicy Chicken Burger",
-    price: 39,
-    quantity: 1,
-    option: "large",
-    image: "/burger.png",
-  },
-  {
-    id: 3,
-    title: "Veggie Delight Sandwich",
-    price: 20,
-    quantity: 2,
-    option: "meduim",
-    image: "/sandwitch.png",
-  },
-];
+// const cartProd = [
+// {
+//   id: 1,
+//   title: "Classic Margherita Pizza",
+//   price: 45,
+//   quantity: 2,
+//   option: "small",
+//   image: "/pizza.png",
+// },
+// {
+//   id: 2,
+//   title: "Spicy Chicken Burger",
+//   price: 39,
+//   quantity: 1,
+//   option: "large",
+//   image: "/burger.png",
+// },
+// {
+//   id: 3,
+//   title: "Veggie Delight Sandwich",
+//   price: 20,
+//   quantity: 2,
+//   option: "meduim",
+//   image: "/sandwitch.png",
+// },
+// ];
 
 const CartPage = () => {
+  const { products, totalPrice, totalQuantity, removeFromCart } = useStore();
   return (
     <div className="flex w-full flex-col lg:flex-row ">
       {/* Product container */}
       <div className="flex w-full flex-col lg:overflow-scroll lg:h-[calc(100vh-224px)] scrollbar-hidden">
-        {cartProd.map((prod) => (
+        {products.map((prod) => (
           <div
             key={prod.id}
             className="flex w-full justify-between px-4 odd:bg-amber-50 relative"
@@ -51,10 +55,11 @@ const CartPage = () => {
               </div>
             </div>
             {/* price */}
-            <div className="flex items-center">
-              ${prod.price * prod.quantity}
-            </div>
-            <div className="absolute right-0 hover:cursor-pointer">
+            <div className="flex items-center">${prod.price}</div>
+            <div
+              className="absolute right-0 hover:cursor-pointer"
+              onClick={() => removeFromCart(prod)}
+            >
               <X />
             </div>
           </div>
@@ -63,8 +68,8 @@ const CartPage = () => {
       {/* price container */}
       <div className="w-full lg:w-1/3 h-[50vh] lg:h-[calc(100vh-224px)] bg-fuchsia-50 flex flex-col justify-center px-20 text-xl gap-4">
         <div className="flex justify-between">
-          <span>Subtotal</span>
-          <span>$125</span>
+          <span>Subtotal(x{totalQuantity})</span>
+          <span>{totalPrice}</span>
         </div>
         <div className="flex justify-between">
           <span>Platform Charges</span>
@@ -77,7 +82,7 @@ const CartPage = () => {
         <div className="h-0.5 bg-fuchsia-300" />
         <div className="flex justify-between">
           <span>Total Amount</span>
-          <span>$128</span>
+          <span>${totalPrice + 3}</span>
         </div>
         <Link
           href="/"
