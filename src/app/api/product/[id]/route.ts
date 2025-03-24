@@ -24,7 +24,7 @@ export const GET = async (
 
 export const DELETE = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<any> }
 ) => {
   const { id } = await params;
   try {
