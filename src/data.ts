@@ -1,2 +1,1 @@
-export const projectUrl =
-  "https://tomato-git-main-sayanta-nandis-projects.vercel.app";
+export const projectUrl = process.env.NEXT_PUBLIC_BASE_URL;
