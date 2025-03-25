@@ -21,8 +21,8 @@ async function CatagoryPage({
   console.log(pathname);
   const items: Products[] = await getData(pathname.catagory);
   return (
-    <div>
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+    <div className="w-full">
+      <div className="flex gap-4 flex-wrap w-full">
         {items.map((prod) => (
           <ProductCard key={prod.id} prod={prod} />
         ))}
