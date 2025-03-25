@@ -6,17 +6,17 @@ import { useEffect, useState } from "react";
 
 const sliderItems = [
   {
-    image: "/slider.png",
+    image: "/slider.jpg",
     text1: "Feast Your Senses,",
     text2: "Fast ans Fresh!",
   },
   {
-    image: "/slider1.png",
+    image: "/slider1.jpg",
     text1: "Your favorite meals,",
     text2: "delivered instantly!",
   },
   {
-    image: "/slider2.png",
+    image: "/slider2.jpg",
     text1: "Delicious food,",
     text2: "just a click away!",
   },
