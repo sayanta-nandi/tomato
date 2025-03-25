@@ -7,6 +7,8 @@ export const GET = async () => {
     return new NextResponse(JSON.stringify(data), { status: 200 });
   } catch (error) {
     console.log(error);
-    return new NextResponse("Error", { status: 500 });
+    return new NextResponse(JSON.stringify({ massage: error }), {
+      status: 500,
+    });
   }
 };
