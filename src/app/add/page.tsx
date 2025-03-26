@@ -146,7 +146,7 @@ const AddPage = () => {
           />
         </div>
 
-        <div className="flex gap-4 w-full items-center">
+        <div className="flex gap-4 flex-col md:flex-row w-full items-center">
           <label>Options</label>
           <input
             className="ring-1 flex-1 px-2 ring-gray-600 rounded-md py-1"
