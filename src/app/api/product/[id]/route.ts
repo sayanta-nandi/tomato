@@ -45,3 +45,29 @@ export const DELETE = async (
     );
   }
 };
+export const POST = async (
+  req: NextRequest,
+  { params }: { params: Promise<any> }
+) => {
+  const { id } = await params;
+  try {
+    await prisma.products.update({
+      where: {
+        id: id,
+      },
+      data: {
+        isFeatured: true,
+      },
+    });
+    return new NextResponse(
+      JSON.stringify({ massage: "added to featured products succesfully" }),
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log(error);
+    return new NextResponse(
+      JSON.stringify({ masssge: "somthing went wrong" }),
+      { status: 500 }
+    );
+  }
+};

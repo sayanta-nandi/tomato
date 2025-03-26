@@ -1,3 +1,4 @@
+import { useStore } from "@/cart";
 import { MenuIcon, X } from "lucide-react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
@@ -23,6 +24,7 @@ const Navbar2 = ({
   data: Session | null;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { totalQuantity } = useStore();
 
   return (
     <>
@@ -49,17 +51,20 @@ const Navbar2 = ({
             onClick={() => setIsOpen(false)}
           >
             {item.name}
+            {item.name === "Cart" && `(${totalQuantity})`}
           </Link>
         ))}
-        <Link
-          href={`/add`}
-          className={`py-2 px-4 rounded-3xl hidden ${
-            status && data?.user.isAdmin && "block"
-          } ${path === "add" && "bg-orange-500"}`}
-          onClick={() => setIsOpen(false)}
-        >
-          Add Product
-        </Link>
+        {status && data?.user.isAdmin && (
+          <Link
+            href={`/add`}
+            className={`py-2 px-4 rounded-3xl ${
+              path === "add" && "bg-orange-500"
+            }`}
+            onClick={() => setIsOpen(false)}
+          >
+            Add Product
+          </Link>
+        )}
 
         <button
           onClick={() => signOut()}

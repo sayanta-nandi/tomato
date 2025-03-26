@@ -13,10 +13,13 @@ const getData = async () => {
 const Featured = async () => {
   const FeaturedProducts: Products[] = await getData();
   return (
-    <div className="scrollbar-hidden flex overflow-scroll py-10 md:gap-2 xl:gap-4">
-      {FeaturedProducts.map((item) => (
-        <ProductCard key={item.id} prod={item} />
-      ))}
+    <div className="px-4 flex py-10 flex-col">
+      <p className="text-4xl font-semibold">Featured Products</p>
+      <div className="scrollbar-hidden flex overflow-scroll pt-5 gap-4 xl:gap-8">
+        {FeaturedProducts.map((item) => (
+          <ProductCard key={item.id} prod={item} />
+        ))}
+      </div>
     </div>
   );
 };

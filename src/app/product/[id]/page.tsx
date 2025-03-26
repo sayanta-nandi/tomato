@@ -1,3 +1,4 @@
+import AddToFeatured from "@/components/AddToFeatured";
 import DeleteButton from "@/components/DeleteButton";
 import Price from "@/components/Price";
 import { projectUrl } from "@/data";
@@ -24,7 +25,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <div className="relative flex flex-col w-full md:flex-row py-10 px-6">
       <div className="relative w-full aspect-square md:w-1/2">
-        <Image src={product.image} alt="" fill />
+        <Image src={product.image} alt="" fill className="object-cover" />
       </div>
       <div className="flex flex-1 flex-col items-center">
         <div className="flex flex-col gap-6 pt-10 lg:pt-30">
@@ -33,7 +34,10 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
           <Price product={product} />
         </div>
       </div>
-      <DeleteButton id={id} />
+      <div className="absolute top-0 right-0 m-2 flex flex-col gap-2">
+        <DeleteButton id={id} />
+        <AddToFeatured id={id} />
+      </div>
     </div>
   );
 };

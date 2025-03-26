@@ -147,21 +147,23 @@ const AddPage = () => {
         </div>
 
         <div className="flex gap-4 flex-col md:flex-row w-full items-center">
-          <label>Options</label>
-          <input
-            className="ring-1 flex-1 px-2 ring-gray-600 rounded-md py-1"
-            onChange={(e) => setOption({ ...option, title: e.target.value })}
-            type="text"
-            placeholder="option tile"
-          />
-          <input
-            className="ring-1 flex-1 px-2 ring-gray-600 rounded-md py-1"
-            onChange={(e) =>
-              setOption({ ...option, price: Number(e.target.value) })
-            }
-            type="number"
-            placeholder="price"
-          />
+          <label className="self-start">Options</label>
+          <div className="flex gap-4">
+            <input
+              className="ring-1 flex-1 px-2 ring-gray-600 rounded-md py-1"
+              onChange={(e) => setOption({ ...option, title: e.target.value })}
+              type="text"
+              placeholder="option tile"
+            />
+            <input
+              className="ring-1 flex-1 px-2 ring-gray-600 rounded-md py-1"
+              onChange={(e) =>
+                setOption({ ...option, price: Number(e.target.value) })
+              }
+              type="number"
+              placeholder="price"
+            />
+          </div>
           <div
             className="bg-orange-500 text-white py-2 px-4 rounded-2xl hover:cursor-pointer"
             onClick={() => setOptions([...options, option])}

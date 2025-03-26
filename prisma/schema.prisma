@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Catagory {
-  id        String     @unique @default(uuid())
+  id        String     @id @default(uuid())
   createdAt DateTime   @default(now())
   title     String
   desc      String
@@ -25,7 +25,7 @@ model Catagory {
 }
 
 model Products {
-  id         String   @unique @default(uuid())
+  id         String   @id @default(uuid())
   createdAt  DateTime @default(now())
   title      String
   desc       String
@@ -33,7 +33,7 @@ model Products {
   price      Decimal
   isFeatured Boolean  @default(false)
   options    Json[]
-  catagory   Catagory @relation(fields: [catSlug], references: [slug])
+  catagory   Catagory @relation(fields: [catSlug], references: [slug], onDelete: Cascade, onUpdate: Cascade)
   catSlug    String
 }
 
@@ -110,12 +110,12 @@ model Authenticator {
 }
 
 model Order {
-  id        String   @unique @default(uuid())
+  id        String   @id @default(uuid())
   price     Decimal
   products  Json[]
   status    String
   intent_id String?  @unique
   createdAt DateTime @default(now())
   orderedBy String
-  user      User     @relation(fields: [orderedBy], references: [email])
+  user      User     @relation(fields: [orderedBy], references: [email], onDelete: Cascade, onUpdate: Cascade)
 }
