@@ -104,7 +104,7 @@ const AddPage = () => {
   return (
     <div className="w-full text-lg">
       <form
-        className="items-center flex flex-col gap-4 py-12 px-28 md:px-44 lg:px-64"
+        className="items-center flex flex-col gap-4 px-2 py-12 md:px-28 lg:px-44 xl:px-64"
         onSubmit={(e) => handleSubmit(e)}
       >
         <div className="flex gap-4 w-full items-center">

@@ -99,7 +99,7 @@ const Navbar = () => {
           </Link>
         )}
       </div>
-      <Navbar2 path={path} status={status === "authenticated"} />
+      <Navbar2 path={path} data={data} status={status === "authenticated"} />
     </div>
   );
 };

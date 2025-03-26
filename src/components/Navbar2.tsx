@@ -1,4 +1,5 @@
 import { MenuIcon, X } from "lucide-react";
+import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
@@ -12,7 +13,15 @@ const navItems = [
   { name: "Login/Signup", path: "login", authenticated: "noUser" },
 ];
 
-const Navbar2 = ({ path, status }: { path: string; status: boolean }) => {
+const Navbar2 = ({
+  path,
+  status,
+  data,
+}: {
+  path: string;
+  status: boolean;
+  data: Session | null;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -42,6 +51,15 @@ const Navbar2 = ({ path, status }: { path: string; status: boolean }) => {
             {item.name}
           </Link>
         ))}
+        <Link
+          href={`/add`}
+          className={`py-2 px-4 rounded-3xl hidden ${
+            status && data?.user.isAdmin && "block"
+          } ${path === "add" && "bg-orange-500"}`}
+          onClick={() => setIsOpen(false)}
+        >
+          Add Product
+        </Link>
 
         <button
           onClick={() => signOut()}
