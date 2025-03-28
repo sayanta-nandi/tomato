@@ -5,7 +5,7 @@ import { projectUrl } from "@/data";
 import { X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useTransition } from "react";
 import { toast } from "react-toastify";
 
 type Item = {
@@ -45,6 +45,7 @@ const AddPage = () => {
   const [image, setImage] = useState<File>();
   const { status, data } = useSession();
   const router = useRouter();
+  const [isPending, setTransition] = useTransition();
   if (status === "loading") return <Loading />;
   if (status === "unauthenticated" || !data?.user.isAdmin) {
     router.push("/");
@@ -59,24 +60,28 @@ const AddPage = () => {
     });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const url = await uploadImage();
-    const product: Product = {
-      ...item,
-      options,
-      catSlug: cat,
-      image: url,
-    };
-    try {
-      const res = await fetch("/api/add", {
-        method: "POST",
-        body: JSON.stringify(product),
-      });
-      const id = await res.json();
-      router.push(`/product/${id}`);
-      toast.success("Product added");
-    } catch (error) {}
+    setTransition(async () => {
+      const url = await uploadImage();
+      const product: Product = {
+        ...item,
+        options,
+        catSlug: cat,
+        image: url,
+      };
+      try {
+        const res = await fetch("/api/add", {
+          method: "POST",
+          body: JSON.stringify(product),
+        });
+        const id = await res.json();
+        router.push(`/product/${id}`);
+        toast.success("Product added");
+      } catch (error) {
+        toast.error("Product not added");
+      }
+    });
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -203,10 +208,13 @@ const AddPage = () => {
           </select>
         </div>
         <button
-          className="bg-orange-500 text-white py-2 px-4 rounded-2xl hover:cursor-pointer"
+          className={`${
+            isPending ? "bg-orange-400" : "bg-orange-500"
+          } text-white py-2 px-4 rounded-2xl hover:cursor-pointer`}
           type="submit"
+          disabled={isPending}
         >
-          Submit
+          {isPending ? "Submitting..." : "Submit"}
         </button>
       </form>
     </div>
