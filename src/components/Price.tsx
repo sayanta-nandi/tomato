@@ -69,10 +69,7 @@ const Price = ({ product }: { product: Product }) => {
           {">"}
         </button>
       </div>
-      <div className="flex justify-between px-4">
-        <button className="bg-orange-500 px-6 py-2 text-xl text-white rounded-2xl hover:cursor-pointer">
-          Order
-        </button>
+      <div className="flex justify-center px-4 w-full">
         <button
           onClick={() => handleCart(product)}
           className="bg-orange-500 px-6 py-2 text-xl text-white rounded-2xl hover:cursor-pointer"

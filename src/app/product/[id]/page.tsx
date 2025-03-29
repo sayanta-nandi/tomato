@@ -23,8 +23,8 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   console.log(product);
   if (!product) return;
   return (
-    <div className="relative flex flex-col w-full md:flex-row py-10 px-6">
-      <div className="relative w-full aspect-square md:w-1/2">
+    <div className="relative items-center flex flex-col w-full md:flex-row py-10 px-6">
+      <div className="relative w-[90%] aspect-square md:w-[40%]">
         <Image src={product.image} alt="" fill className="object-cover" />
       </div>
       <div className="flex flex-1 flex-col items-center">

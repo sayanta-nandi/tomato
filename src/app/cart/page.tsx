@@ -1,12 +1,31 @@
 "use client";
 
 import { useStore } from "@/cart";
+import Loading from "@/components/Loading";
+import { delivery_charge, platform_charge } from "@/data";
 import { X } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const CartPage = () => {
   const { products, totalPrice, totalQuantity, removeFromCart } = useStore();
+  const { status } = useSession();
+  const router = useRouter();
+  const handleCart = () => {
+    if (status === "unauthenticated") {
+      toast.error("SignUp/Login to order");
+      router.push("/login");
+      return;
+    } else if (status === "loading") return <Loading />;
+    else if (totalQuantity === 0) {
+      toast.error("add products to order");
+    } else {
+      router.push("/payment");
+    }
+  };
   return (
     <div className="flex w-full flex-col lg:flex-row ">
       {/* Product container */}
@@ -46,23 +65,23 @@ const CartPage = () => {
         </div>
         <div className="flex justify-between">
           <span>Platform Charges</span>
-          <span>$2</span>
+          <span>${platform_charge}</span>
         </div>
         <div className="flex justify-between">
           <span>Delivery Charges</span>
-          <span>$1</span>
+          <span>${delivery_charge}</span>
         </div>
         <div className="h-0.5 bg-fuchsia-300" />
         <div className="flex justify-between">
           <span>Total Amount</span>
-          <span>${totalPrice + 3}</span>
+          <span>${totalPrice + platform_charge + delivery_charge}</span>
         </div>
-        <Link
-          href="/"
-          className="py-2 px-4 bg-green-500 rounded-lg text-white w-fit self-end"
+        <button
+          onClick={handleCart}
+          className="py-2 hover:cursor-pointer px-4 bg-green-500 rounded-lg text-white w-fit self-end"
         >
           CheckOut
-        </Link>
+        </button>
       </div>
     </div>
   );

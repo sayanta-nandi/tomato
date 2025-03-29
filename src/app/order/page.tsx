@@ -82,7 +82,7 @@ const OrderPage = () => {
                 <td className="hidden md:block py-4 px-1">
                   {order.products.map((prod, index) => (
                     <div key={index} className="flex">
-                      {String(prod?.toString)},
+                      {prod?.toString()},
                     </div>
                   ))}
                 </td>

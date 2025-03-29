@@ -21,3 +21,11 @@ export type ActionType = {
   addToCart: (item: CartItem) => void;
   removeFromCart: (item: CartItem) => void;
 };
+
+export type OrderType = {
+  price: number;
+  products: string[];
+  status: string;
+  intent_id?: string;
+  orderedBy: string;
+};

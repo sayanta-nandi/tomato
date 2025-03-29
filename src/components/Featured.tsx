@@ -17,7 +17,9 @@ const Featured = async () => {
       <p className="text-4xl font-semibold">Featured Products</p>
       <div className="scrollbar-hidden flex overflow-scroll pt-5 gap-4 xl:gap-8">
         {FeaturedProducts.map((item) => (
-          <ProductCard key={item.id} prod={item} />
+          <div key={item.id} className="min-w-[25vw]">
+            <ProductCard prod={item} />
+          </div>
         ))}
       </div>
     </div>
