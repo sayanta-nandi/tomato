@@ -16,10 +16,10 @@ const ProductCard = ({ prod }: { prod: Products }) => {
       </div>
       {/* text con */}
       <div className="flex flex-col items-center gap-2 py-4">
-        <p className="text-lg md:text-xl lg:text-2xl font-bold text-orange-500 uppercase text-center text-balance">
+        <p className="text-lg h-15 overflow-scroll scrollbar-hidden md:text-xl lg:text-2xl font-bold text-orange-500 uppercase text-center text-balance">
           {prod.title}
         </p>
-        <p className="text-orange-700 hidden md:block text-center text-balance">
+        <p className="text-orange-700 h-20 overflow-scroll scrollbar-hidden hidden md:block text-center text-balance">
           {prod.desc}
         </p>
         <p className="text-xl text-orange-600">${Number(prod.price)}</p>
