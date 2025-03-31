@@ -34,11 +34,11 @@ const LoginPage = () => {
             <p className="text-center w-full">Sign in with Google</p>
           </button>
           <button
-            onClick={() => signIn("facebook", { redirectTo: "/" })}
+            onClick={() => signIn("github", { redirectTo: "/" })}
             className="flex border hover:cursor-pointer w-[80%] hover:bg-gray-200 border-gray-300 rounded-md p-1"
           >
-            <Image src="/facebook.png" alt="" height={24} width={24} />
-            <p className="text-center w-full">Sign in with Facebook</p>
+            <Image src="/github.png" alt="" height={24} width={24} />
+            <p className="text-center w-full">Sign in with GitHub</p>
           </button>
           <p className="text-xs">
             For any problem{" "}
