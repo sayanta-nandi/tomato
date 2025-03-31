@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import Countdown from "react-countdown";
 
 const Offer = () => {
@@ -18,9 +19,12 @@ const Offer = () => {
           Hurry, limited time offer!
         </p>
         <p className="self-center text-2xl text-amber-300">$40</p>
-        <button className="bg-amber-500 w-fit self-center px-4 py-2 rounded-lg text-xl hover:cursor-pointer hover:bg-amber-600">
+        <Link
+          href="/offer"
+          className="bg-amber-500 w-fit self-center px-4 py-2 rounded-lg text-xl hover:cursor-pointer hover:bg-amber-600"
+        >
           Claim Offer!
-        </button>
+        </Link>
         <Countdown
           className="self-center text-2xl text-amber-200"
           date="2025-03-11T01:02:03"

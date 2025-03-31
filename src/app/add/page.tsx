@@ -133,7 +133,7 @@ const AddPage = () => {
         <div className="flex gap-4 w-full items-center">
           <label>Image</label>
           <input
-            className="ring-1 flex-1 px-2 ring-gray-600 rounded-md py-1"
+            className="ring-1 flex-1 px-2 ring-gray-600 max-w-[100vw-76px]: rounded-md py-1"
             type="file"
             accept="image/*"
             onChange={(e) => handleFileChange(e)}
@@ -153,7 +153,7 @@ const AddPage = () => {
 
         <div className="flex gap-4 flex-col md:flex-row w-full items-center">
           <label className="self-start">Options</label>
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <input
               className="ring-1 flex-1 px-2 ring-gray-600 rounded-md py-1"
               onChange={(e) => setOption({ ...option, title: e.target.value })}

@@ -49,7 +49,7 @@ const Slider = () => {
           <span className="text-orange-500">{sliderItems[index].text2}</span>
         </h1>
         <Link
-          href="/"
+          href="/menu"
           className="bg-amber-500 w-fit px-4 py-2 rounded-2xl text-white text-xl hover:cursor-pointer "
         >
           Order Now
