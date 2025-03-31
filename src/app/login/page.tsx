@@ -33,10 +33,13 @@ const LoginPage = () => {
             <Image src="/google.png" alt="" height={24} width={24} />
             <p className="text-center w-full">Sign in with Google</p>
           </button>
-          <div className="flex border hover:cursor-pointer w-[80%] hover:bg-gray-200 border-gray-300 rounded-md p-1">
+          <button
+            onClick={() => signIn("facebook", { redirectTo: "/" })}
+            className="flex border hover:cursor-pointer w-[80%] hover:bg-gray-200 border-gray-300 rounded-md p-1"
+          >
             <Image src="/facebook.png" alt="" height={24} width={24} />
             <p className="text-center w-full">Sign in with Facebook</p>
-          </div>
+          </button>
           <p className="text-xs">
             For any problem{" "}
             <span className="underline hover:cursor-pointer">Contact us</span>
